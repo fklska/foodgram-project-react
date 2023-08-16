@@ -1,10 +1,16 @@
 from django.contrib import admin
-from .models import Recept, Tag, Ingredient, IngredientsInRecipe
+
+from .models import Ingredient, IngredientsInRecipe, Recipe, Tag
 
 
-@admin.register(Recept)
-class ReceptAdmin(admin.ModelAdmin):
-    list_display = ('name', 'id', 'author', 'image', 'text', 'cooking_time', 'amount_in_favorite')
+@admin.register(Recipe)
+class RecipeAdmin(admin.ModelAdmin):
+    list_display = (
+        'name', 'id',
+        'author', 'image',
+        'text', 'cooking_time',
+        'amount_in_favorite'
+    )
     list_filter = ('name', 'author', 'tags',)
     readonly_fields = ('amount_in_favorite',)
 

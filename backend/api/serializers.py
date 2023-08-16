@@ -1,12 +1,16 @@
 import base64
+
 import webcolors
-from rest_framework import serializers, response
-from .models import Recept, Tag, Ingredient, IngredientsInRecipe
 from django.core.files.base import ContentFile
-from users.serializers import UserSerializer
 from django.shortcuts import get_object_or_404
-from users.models import Favorite, ShoppingCart
+from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
+
+from users.models import Favorite, ShoppingCart
+from users.serializers import UserSerializer
+
+from .models import Ingredient, IngredientsInRecipe, Recipe, Tag
+
 
 class HexColor(serializers.Field):
     def to_representation(self, value):
@@ -37,7 +41,10 @@ class IngredientInRecipeRelationField(serializers.RelatedField):
         }
 
     def to_internal_value(self, data):
-        obj, _ = IngredientsInRecipe.objects.get_or_create(amount=data.get('amount'), ingredient=get_object_or_404(Ingredient, id=data.get('id')))
+        obj, _ = IngredientsInRecipe.objects.get_or_create(
+            amount=data.get('amount'),
+            ingredient=get_object_or_404(Ingredient, id=data.get('id'))
+        )
         return obj
 
 
@@ -45,7 +52,10 @@ class TagSerizlizer(serializers.ModelSerializer):
     slug = serializers.CharField(
         max_length=200,
         required=True,
-        validators=[UniqueValidator(queryset=Tag.objects.all(), message="This slug already exist")]
+        validators=[UniqueValidator(
+            queryset=Tag.objects.all(),
+            message="This slug already exist")
+        ]
     )
 
     class Meta:
@@ -76,22 +86,33 @@ class ImageField(serializers.ImageField):
 
 
 class ReceptSerizlizer(serializers.ModelSerializer):
-    ingredients = IngredientInRecipeRelationField(queryset=IngredientsInRecipe.objects.all(), many=True)
+    ingredients = IngredientInRecipeRelationField(
+        queryset=IngredientsInRecipe.objects.all(),
+        many=True
+    )
     tags = TagRelationField(many=True, queryset=Tag.objects.all())
     author = UserSerializer(required=False)
     image = ImageField(required=False)
-    is_favorited = serializers.SerializerMethodField(method_name='get_favorite')
-    is_in_shopping_cart = serializers.SerializerMethodField(method_name='get_shopping_cart')
+    is_favorited = serializers.SerializerMethodField(
+        method_name='get_favorite'
+    )
+    is_in_shopping_cart = serializers.SerializerMethodField(
+        method_name='get_shopping_cart'
+    )
 
     class Meta:
-        model = Recept
-        fields = ('id', 'tags', 'author', 'ingredients', 'is_favorited', 'is_in_shopping_cart', 'name', 'image', 'text', 'cooking_time',)
+        model = Recipe
+        fields = (
+            'id', 'tags', 'author',
+            'ingredients', 'is_favorited', 'is_in_shopping_cart',
+            'name', 'image', 'text', 'cooking_time',
+        )
 
     def create(self, validated_data):
         validated_data['author'] = self.context.get('request').user
         ingredients = validated_data.pop('ingredients')
         tags = validated_data.pop('tags')
-        recept = Recept.objects.create(**validated_data)
+        recept = Recipe.objects.create(**validated_data)
         recept.tags.set(tags)
         recept.ingredients.set(ingredients)
         return recept
@@ -99,8 +120,8 @@ class ReceptSerizlizer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         tags = validated_data.pop('tags')
         ingeredients = validated_data.pop('ingredients')
-        Recept.objects.filter(id=instance.id).update(**validated_data)
-        recept = Recept.objects.filter(id=instance.id).get()
+        Recipe.objects.filter(id=instance.id).update(**validated_data)
+        recept = Recipe.objects.filter(id=instance.id).get()
 
         recept.tags.set(tags)
         recept.ingredients.set(ingeredients)

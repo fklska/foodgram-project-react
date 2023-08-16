@@ -1,7 +1,8 @@
-from django.db import models
-from users.models import User
 from django.contrib.auth import validators
+from django.db import models
 from webcolors.constants import CSS3_NAMES_TO_HEX
+
+from users.models import User
 
 
 class Ingredient(models.Model):
@@ -23,14 +24,14 @@ class Ingredient(models.Model):
         return self.name
 
 
-class Recept(models.Model):
+class Recipe(models.Model):
     """Модель Рецепта."""
 
     author = models.ForeignKey(
         User,
         blank=False,
         on_delete=models.CASCADE,
-        related_name='recepts',
+        related_name='recipes',
         verbose_name='Автор'
     )
     name = models.CharField(
@@ -49,7 +50,7 @@ class Recept(models.Model):
     ingredients = models.ManyToManyField(
         blank=False,
         to='IngredientsInRecipe',
-        related_name='recepts',
+        related_name='recipes',
         verbose_name='Ингредиенты'
     )
     tags = models.ManyToManyField(
@@ -101,7 +102,9 @@ class Tag(models.Model):
     )
     slug = models.SlugField(
         blank=False,
-        validators=[validators.UnicodeUsernameValidator(regex=r'^[-a-zA-Z0-9_]+$')],
+        validators=[validators.UnicodeUsernameValidator(
+            regex=r'^[-a-zA-Z0-9_]+$')
+        ],
         max_length=200,
         unique=True,
         verbose_name='Slug тега',

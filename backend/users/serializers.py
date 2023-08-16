@@ -1,14 +1,21 @@
-from rest_framework import serializers, response
-from .models import User, Follow
-from api.models import Recept
+from rest_framework import serializers
+
+from api.models import Recipe
+
+from .models import Follow, User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    is_subscribed = serializers.SerializerMethodField(method_name='get_subscribed')
+    is_subscribed = serializers.SerializerMethodField(
+        method_name='get_subscribed'
+    )
 
     class Meta:
         model = User
-        fields = ('email', 'id', 'username', 'first_name', 'last_name', 'is_subscribed')
+        fields = (
+            'email', 'id', 'username',
+            'first_name', 'last_name', 'is_subscribed'
+        )
 
     def get_subscribed(self, obj):
         user = self.context.get('request').user
@@ -21,7 +28,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ReceptLiteSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = Recept
+        model = Recipe
         fields = ('id', 'name', 'image', 'cooking_time')
 
 
@@ -31,11 +38,15 @@ class UserWithReceptSerializer(UserSerializer):
 
     class Meta:
         model = User
-        fields = ('email', 'id', 'username', 'first_name', 'last_name', 'is_subscribed', 'recipes', 'recipes_count')
+        fields = (
+            'email', 'id', 'username',
+            'first_name', 'last_name', 'is_subscribed',
+            'recipes', 'recipes_count'
+        )
 
     def get_recipe(self, obj):
-        serializer = ReceptLiteSerializer(obj.recepts.all(), many=True)
+        serializer = ReceptLiteSerializer(obj.recipes.all(), many=True)
         return serializer.data
 
     def get_count(self, obj):
-        return Recept.objects.filter(author=obj).count()
+        return Recipe.objects.filter(author=obj).count()

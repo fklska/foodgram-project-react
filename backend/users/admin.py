@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Follow, Favorite, ShoppingCart, User
+
+from .models import Favorite, Follow, ShoppingCart, User
 
 
 @admin.register(User)
@@ -12,14 +13,14 @@ class UserAdmin(admin.ModelAdmin):
 
 @admin.register(Follow)
 class FollowAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('subscriber', 'author',)
 
 
 @admin.register(Favorite)
 class FavoriteAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'recipe',)
 
 
 @admin.register(ShoppingCart)
 class ShoppingCartAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('user', 'recipe',)

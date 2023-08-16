@@ -1,6 +1,6 @@
-from django.db import models
+from django.contrib.auth import validators
 from django.contrib.auth.models import AbstractUser
-from django.contrib.auth import validators, get_user_model
+from django.db import models
 
 
 class User(AbstractUser):
@@ -58,14 +58,17 @@ class Favorite(models.Model):
     )
 
     recipe = models.ForeignKey(
-        to='api.Recept',
+        to='api.Recipe',
         on_delete=models.CASCADE,
         related_name='favorites'
     )
 
     class Meta:
         constraints = [
-            models.UniqueConstraint(fields=('user', 'recipe'), name='Already in favorite')
+            models.UniqueConstraint(
+                fields=('user', 'recipe'),
+                name='Already in favorite'
+            )
         ]
 
 
@@ -77,7 +80,7 @@ class ShoppingCart(models.Model):
     )
 
     recipe = models.ForeignKey(
-        to='api.Recept',
+        to='api.Recipe',
         on_delete=models.CASCADE,
         related_name='shopping',
         verbose_name='Рецепт'
