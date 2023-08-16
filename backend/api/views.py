@@ -1,5 +1,5 @@
 from django.http import FileResponse
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404
 from rest_framework import response, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
@@ -94,7 +94,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
     def download_shopping_cart(self, request):
         ingredients = IngredientsInRecipe.objects.filter(
             recipes__shopping__user=request.user
-            ).all()
+        ).all()
         # Ing --> Recept --> ShoppingCart --> User --> сравниваю пользователей
         result = {}
         for ing in ingredients:

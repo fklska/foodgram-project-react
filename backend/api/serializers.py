@@ -70,7 +70,7 @@ class TagRelationField(serializers.RelatedField):
             'name': value.name,
             'color': value.color,
             'slug': value.slug
-            }
+        }
 
     def to_internal_value(self, data):
         return data
