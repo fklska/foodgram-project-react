@@ -1,13 +1,4 @@
 # Foodgram
-## Установка
-1. ```git clone git@github.com:fklska/foodgram-project-react.git```
-2. ```docker compose up```
-3. Внутри контейнера backend
-```
-   python manage.py makemigrations
-   python manage.py migrate
-   python manage.py csv
-```
 ```python manage.py csv``` - добавление ингредиентов в базу
 ## Доступные эндпоинты
 ```
