@@ -6,33 +6,45 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('api', '0001_initial'),
+        ("api", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='recipe',
-            name='author',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='recipes', to=settings.AUTH_USER_MODEL, verbose_name='Автор'),
+            model_name="recipe",
+            name="author",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="recipes",
+                to=settings.AUTH_USER_MODEL,
+                verbose_name="Автор",
+            ),
         ),
         migrations.AddField(
-            model_name='recipe',
-            name='ingredients',
-            field=models.ManyToManyField(related_name='recipes', to='api.ingredientsinrecipe', verbose_name='Ингредиенты'),
+            model_name="recipe",
+            name="ingredients",
+            field=models.ManyToManyField(
+                related_name="recipes",
+                to="api.ingredientsinrecipe",
+                verbose_name="Ингредиенты",
+            ),
         ),
         migrations.AddField(
-            model_name='recipe',
-            name='tags',
-            field=models.ManyToManyField(to='api.tag', verbose_name='Теги'),
+            model_name="recipe",
+            name="tags",
+            field=models.ManyToManyField(to="api.tag", verbose_name="Теги"),
         ),
         migrations.AddField(
-            model_name='ingredientsinrecipe',
-            name='ingredient',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.ingredient', verbose_name='Ингредиент'),
+            model_name="ingredientsinrecipe",
+            name="ingredient",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="api.ingredient",
+                verbose_name="Ингредиент",
+            ),
         ),
     ]

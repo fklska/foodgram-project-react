@@ -13,51 +13,45 @@ class UserViewSet(views.UserViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = PageNumberPagination
-    http_method_names = ['get', 'post']
+    http_method_names = ["get", "post"]
 
-    @action(detail=False, methods=['get'],
-            pagination_class=PageNumberPagination,
-            permission_classes=[IsAuthenticated])
+    @action(
+        detail=False,
+        methods=["get"],
+        pagination_class=PageNumberPagination,
+        permission_classes=[IsAuthenticated],
+    )
     def subscriptions(self, request):
         users = User.objects.filter(followers__subscriber=request.user).all()
         page = self.paginate_queryset(users)
         serializer = UserWithReceptSerializer(
-            page,
-            many=True,
-            context={'request': self.request}
+            page, many=True, context={"request": self.request}
         )
 
         return self.get_paginated_response(serializer.data)
 
-    @action(detail=True, methods=['post', 'delete'],
-            permission_classes=[IsAuthenticated])
+    @action(
+        detail=True, methods=["post", "delete"], permission_classes=[IsAuthenticated]
+    )
     def subscribe(self, request, id):
         author = get_object_or_404(User, id=id)
 
-        if request.method == 'POST':
+        if request.method == "POST":
             if not Follow.objects.filter(
-                author=author,
-                subscriber=request.user
+                author=author, subscriber=request.user
             ).exists():
-
                 Follow.objects.create(author=author, subscriber=request.user)
                 serializer = UserWithReceptSerializer(
-                    author,
-                    context={'request': self.request}
+                    author, context={"request": self.request}
                 )
                 return response.Response(serializer.data)
 
             return response.Response(
-                "Already subscribed",
-                status=status.HTTP_400_BAD_REQUEST
+                "Already subscribed", status=status.HTTP_400_BAD_REQUEST
             )
 
-        if request.method == 'DELETE':
-            follow = get_object_or_404(
-                Follow,
-                subscriber=request.user,
-                author=author
-            )
+        if request.method == "DELETE":
+            follow = get_object_or_404(Follow, subscriber=request.user, author=author)
             follow.delete()
             return response.Response("Succes")
 
@@ -66,5 +60,5 @@ class UserViewSet(views.UserViewSet):
         Extra context provided to the serializer class.
         """
         return {
-            'request': self.request,
+            "request": self.request,
         }

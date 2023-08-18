@@ -1,16 +1,18 @@
 from rest_framework.filters import BaseFilterBackend, SearchFilter
+from django_filters import FilterSet, BooleanFilter
+from .models import Recipe
 
 
 class IngredientsFilter(SearchFilter):
-    search_param = 'name'
+    search_param = "name"
 
 
 class RecipeFilter(BaseFilterBackend):
     def filter_queryset(self, request, queryset, view):
-        is_favorite = request.query_params.get('is_favorite')
-        author = request.query_params.get('author')
-        is_in_shopping_cart = request.query_params.get('is_in_shopping_cart')
-        tags = request.query_params.get('tags')
+        is_favorite = request.query_params.get("is_favorite")
+        author = request.query_params.get("author")
+        is_in_shopping_cart = request.query_params.get("is_in_shopping_cart")
+        tags = request.query_params.get("tags")
         if is_favorite is not None:
             queryset = queryset.filter(favorites__user=request.user)
         if author is not None:
