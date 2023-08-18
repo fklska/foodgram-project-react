@@ -11,7 +11,7 @@ services:
     volumes:
       - pg:/var/lib/postgresql/data
     env_file:
-      - ../backend/.env
+      - .env
 
   backend:
     depends_on:
@@ -21,7 +21,7 @@ services:
       - static:/static/
       - media:/media/
     env_file:
-      - ../backend/.env
+      - .env
 
   frontend:
     image: fklska/foodgram_frontend:latest
