@@ -28,6 +28,7 @@ jobs:
           tags: fklska/foodgram_backend:latest
 
   deploy:
+    needs: build_and_push_to_docker_hub
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo
