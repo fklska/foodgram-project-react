@@ -18,7 +18,7 @@ services:
       - db
     image: fklska/foodgram_backend:latest
     volumes:
-      - static:/static/
+      - static:/back_static/
       - media:/media/
     env_file:
       - .env
