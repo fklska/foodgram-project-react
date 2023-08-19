@@ -16,7 +16,8 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['158.160.3.99', '127.0.0.1', 'localhost', 'foodgram-fklska.hopto.org']
+CSRF_TRUSTED_ORIGINS = ['https://*.foodgram-fklska.hopto.org/', 'https://127.0.0.1']
 
 # Application definition
 
