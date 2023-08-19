@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework.authtoken",
     "djoser",
+    "corsheaders",
     "django_filters",
     "colorfield",
     "users.apps.UsersConfig",
@@ -62,9 +63,16 @@ MEDIA_ROOT = "/media/"
 STATIC_URL = "back_static/"
 STATIC_ROOT = BASE_DIR / "collected_static"
 
+CORS_URLS_REGEX = r"^/api/.*$"
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]
+
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
