@@ -72,8 +72,7 @@ class ReceptSerizlizer(serializers.ModelSerializer):
     )
     tags = TagRelationField(many=True, queryset=Tag.objects.all())
     author = UserSerializer(required=False)
-    image = Base64ImageField(required=False)
-    image_url = serializers.URLField(source='image.url')
+    image = serializers.SerializerMethodField(method_name="get_image")
     is_favorited = serializers.SerializerMethodField(method_name="get_favorite")
     is_in_shopping_cart = serializers.SerializerMethodField(
         method_name="get_shopping_cart"
@@ -92,7 +91,6 @@ class ReceptSerizlizer(serializers.ModelSerializer):
             "image",
             "text",
             "cooking_time",
-            'image_url',
         )
 
     @transaction.atomic
@@ -132,3 +130,9 @@ class ReceptSerizlizer(serializers.ModelSerializer):
         ):
             return True
         return False
+
+    def get_image(self, obj):
+        request = self.context.get("request")
+        if request.method == 'GET':
+            return serializers.URLField(source='image.url')
+        return Base64ImageField(required=False)
