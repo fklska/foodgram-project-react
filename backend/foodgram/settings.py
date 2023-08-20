@@ -58,10 +58,10 @@ DJOSER = {
     },
 }
 
-MEDIA_URL = "media/"
+MEDIA_URL = "/media/"
 MEDIA_ROOT = "/media/"
 
-STATIC_URL = "back_static/"
+STATIC_URL = "/back_static/"
 STATIC_ROOT = BASE_DIR / "collected_static"
 
 CORS_URLS_REGEX = r"^/api/.*$"
