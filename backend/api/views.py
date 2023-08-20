@@ -10,7 +10,7 @@ from django_filters import rest_framework as filters
 from .filters import IngredientsFilter, RecipeFilter
 from .models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from .premissions import AuthorizedOrAuthor
-from .serializers import IngredientSerizlizer, ReceptSerizlizer, TagSerizlizer
+from .serializers import IngredientSerizlizer, ReceptSerizlizer, TagSerizlizer, RecipeReadSerializer
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
@@ -83,6 +83,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 file.write(f"{item.get('ingredient__name')} - {item.get('amount__sum')} \n")
 
         return FileResponse(open("shopping_list.txt", "rb"))
+
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return RecipeReadSerializer
+        return ReceptSerizlizer
 
 
 class TagViewSet(viewsets.ModelViewSet):

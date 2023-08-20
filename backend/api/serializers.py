@@ -131,8 +131,21 @@ class ReceptSerizlizer(serializers.ModelSerializer):
             return True
         return False
 
-    def get_image(self, obj):
-        request = self.context.get("request")
-        if request.method == 'GET':
-            return serializers.URLField(source='image.url')
-        return Base64ImageField(required=False)
+
+class RecipeReadSerializer(ReceptSerizlizer):
+    image = serializers.URLField(source='image.url')
+
+    class Meta:
+        model = Recipe
+        fields = (
+            "id",
+            "tags",
+            "author",
+            "ingredients",
+            "is_favorited",
+            "is_in_shopping_cart",
+            "name",
+            "image",
+            "text",
+            "cooking_time",
+        )
