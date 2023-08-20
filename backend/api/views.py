@@ -3,10 +3,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework import response, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Count
+from django.db.models import Count, Sum
 from users.models import Favorite, ShoppingCart
 from users.serializers import ReceptLiteSerializer
-
+from django_filters import rest_framework as filters
 from .filters import IngredientsFilter, RecipeFilter
 from .models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from .premissions import AuthorizedOrAuthor
@@ -17,7 +17,8 @@ class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
     serializer_class = ReceptSerizlizer
     permission_classes = [AuthorizedOrAuthor]
-    filter_backends = [RecipeFilter]
+    filter_backends = (filters.DjangoFilterBackend,)
+    filterset_class = RecipeFilter
 
     @action(
         detail=True, methods=["post", "delete"], permission_classes=[IsAuthenticated]
@@ -75,23 +76,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
             recipes__shopping__user=request.user
         ).all()
         # Ing --> Recept --> ShoppingCart --> User --> сравниваю пользователей
-        #q = ingredients.annotate(Count('amount', distinct=True))
-        #print(q[0].amount)
-        print(ingredients)
-        result = {}
-        for ing in ingredients:
-            result[f"{ing.ingredient.name}" f"({ing.ingredient.measurement_unit})"] = (
-                result.get(
-                    f"{ing.ingredient.name} ({ing.ingredient.measurement_unit})", 0
-                )
-                + ing.amount
-            )
-        print(result)
-        #  Ключ - название ингредиента + ед. изм.
-        #  Значение - количество
+        query = ingredients.values('ingredient__name').annotate(Sum('amount'))
+        print(query)
         with open("shopping_list.txt", "w", encoding="utf8") as file:
-            for key in result.keys():
-                file.write(f"{key} - {result[key]} \n")
+            for item in query:
+                file.write(f"{item.get('ingredient__name')} - {item.get('amount__sum')} \n")
 
         return FileResponse(open("shopping_list.txt", "rb"))
 
