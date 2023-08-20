@@ -59,7 +59,7 @@ DJOSER = {
 }
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "/media/"
+MEDIA_ROOT = BASE_DIR / "media"
 
 STATIC_URL = "back_static/"
 STATIC_ROOT = BASE_DIR / "collected_static"
