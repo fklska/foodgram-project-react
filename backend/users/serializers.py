@@ -5,11 +5,20 @@ from .models import Follow, User
 
 
 class UserSerializer(serializers.ModelSerializer):
-    is_subscribed = serializers.SerializerMethodField(method_name="get_subscribed")
+    is_subscribed = serializers.SerializerMethodField(
+        method_name="get_subscribed"
+    )
 
     class Meta:
         model = User
-        fields = ("email", "id", "username", "first_name", "last_name", "is_subscribed")
+        fields = (
+            "email",
+            "id",
+            "username",
+            "first_name",
+            "last_name",
+            "is_subscribed"
+        )
 
     def get_subscribed(self, obj):
         user = self.context.get("request").user

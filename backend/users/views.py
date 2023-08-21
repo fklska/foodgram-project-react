@@ -31,7 +31,8 @@ class UserViewSet(views.UserViewSet):
         return self.get_paginated_response(serializer.data)
 
     @action(
-        detail=True, methods=["post", "delete"], permission_classes=[IsAuthenticated]
+        detail=True, methods=["post", "delete"],
+        permission_classes=[IsAuthenticated]
     )
     def subscribe(self, request, id):
         author = get_object_or_404(User, id=id)
@@ -51,7 +52,9 @@ class UserViewSet(views.UserViewSet):
             )
 
         if request.method == "DELETE":
-            follow = get_object_or_404(Follow, subscriber=request.user, author=author)
+            follow = get_object_or_404(
+                Follow, subscriber=request.user, author=author
+            )
             follow.delete()
             return response.Response("Succes")
 

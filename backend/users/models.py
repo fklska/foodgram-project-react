@@ -10,7 +10,9 @@ class User(AbstractUser):
     username = models.CharField(
         blank=False,
         max_length=USER_FIELD_LENGHT,
-        validators=([validators.UnicodeUsernameValidator(regex=r"^[\w.@+-]+\Z")]),
+        validators=(
+            [validators.UnicodeUsernameValidator(regex=r"^[\w.@+-]+\Z")]
+        ),
         unique=True,
     )
     password = models.CharField(
