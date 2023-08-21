@@ -40,7 +40,7 @@ jobs:
         DJANGO_SECRET: ${{ secrets.DJANGO }}
       run: |
         cd backend/
-        python -m flake8
+        flake8 .
 
   build_push_backend:
     needs: 
