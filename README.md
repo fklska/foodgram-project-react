@@ -1,8 +1,10 @@
 # Foodgram
 Доступно по [адресу](https://github.com/fklska/foodgram-project-react)
 Данные для админки:
+```
 login: admin
 pass: admin
+```
 ---
 
 ```python manage.py csv``` - добавление ингредиентов в базу
@@ -38,5 +40,6 @@ api/ auth/
 
 Endpoint | Response | Params 
 --- | --- | ---|
-`api/ ^tags/` | `[{"id": 1,"name": "Жизнь без забот","color": "#32FFB2","slug": "akuna_matata"}]` | -
-
+`api/tags/` | `[{"id": 1,"name": "Жизнь без забот","color": "#32FFB2","slug": "akuna_matata"}]` | -
+`api/ingredients` | `[{"name": "абрикосовое варенье","measurement_unit": "г","id": 1},{"name": "абрикосовое пюре","measurement_unit": "г", "id":2}]` | -
+`api/ingredients?name=пюре` | `[[{"name":"пюре","measurement_unit":"по вкусу","id":1408}]` | name=пюре
