@@ -28,8 +28,7 @@ jobs:
           tags: fklska/foodgram_backend:latest
 
   deploy:
-    needs: 
-      - build_push_backend
+    needs: build_push_backend
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo
@@ -68,8 +67,7 @@ jobs:
           sudo docker compose -f docker-compose.yml up -d
 
   migrations_database:
-    needs: 
-      - deploy
+    needs: deploy
     runs-on: ubuntu-latest
     steps:
     - name: Checkout repo
@@ -90,7 +88,7 @@ jobs:
    
   send_message:
     runs-on: ubuntu-latest
-    needs: deploy
+    needs: migrations_database
     steps:
     - name: Send message
       uses: appleboy/telegram-action@master
