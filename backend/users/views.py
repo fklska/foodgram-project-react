@@ -59,9 +59,7 @@ class UserViewSet(views.UserViewSet):
             return response.Response("Succes")
 
     def get_serializer_context(self):
-        """
-        Extra context provided to the serializer class.
-        """
+        """Extra context provided to the serializer class."""
         return {
             "request": self.request,
         }
