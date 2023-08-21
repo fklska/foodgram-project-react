@@ -7,13 +7,13 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from users.models import Favorite, ShoppingCart
 from users.serializers import ReceptLiteSerializer
-from utils import write_shopping_list
 
 from .filters import IngredientsFilter, RecipeFilter
 from .models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from .premissions import AuthorizedOrAuthor
 from .serializers import (IngredientSerizlizer, RecipeReadSerializer,
                           RecipeSerizlizer, TagSerizlizer)
+from .utils import write_shopping_list
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
