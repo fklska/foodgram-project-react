@@ -14,7 +14,8 @@ services:
       - .env
 
   backend:
-    depends_on: db
+    depends_on: 
+      - db
     image: fklska/foodgram_backend:latest
     volumes:
       - static:/static/
