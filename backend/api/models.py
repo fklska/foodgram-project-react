@@ -1,20 +1,22 @@
-from django.contrib.auth import validators
-from django.db import models
-from webcolors.constants import CSS3_NAMES_TO_HEX
 from colorfield.fields import ColorField
-from users.models import User
 from constants import API_FIELD_LENGHT
+from django.db import models
+from users.models import User
 
 
 class Ingredient(models.Model):
     """Модель ингредиентов."""
 
     name = models.CharField(
-        max_length=API_FIELD_LENGHT, blank=False, verbose_name="Название ингредиента"
+        max_length=API_FIELD_LENGHT,
+        blank=False,
+        verbose_name="Название ингредиента"
     )
 
     measurement_unit = models.CharField(
-        max_length=API_FIELD_LENGHT, blank=False, verbose_name="Единицы измерения"
+        max_length=API_FIELD_LENGHT,
+        blank=False,
+        verbose_name="Единицы измерения"
     )
 
     def __str__(self) -> str:
@@ -32,7 +34,9 @@ class Recipe(models.Model):
         verbose_name="Автор",
     )
     name = models.CharField(
-        blank=False, max_length=API_FIELD_LENGHT, verbose_name="Название рецепта"
+        blank=False,
+        max_length=API_FIELD_LENGHT,
+        verbose_name="Название рецепта"
     )
     image = models.ImageField(blank=False, verbose_name="Картинка")
     text = models.TextField(blank=False, verbose_name="Описание")
@@ -43,7 +47,10 @@ class Recipe(models.Model):
         verbose_name="Ингредиенты",
     )
     tags = models.ManyToManyField(blank=False, to="Tag", verbose_name="Теги")
-    cooking_time = models.IntegerField(blank=False, verbose_name="Время приготовления")
+    cooking_time = models.IntegerField(
+        blank=False,
+        verbose_name="Время приготовления"
+    )
 
     class Meta:
         ordering = [
@@ -67,7 +74,9 @@ class IngredientsInRecipe(models.Model):
 class Tag(models.Model):
     """Модель тега."""
 
-    name = models.CharField(blank=False, max_length=API_FIELD_LENGHT, verbose_name="Название")
+    name = models.CharField(
+        blank=False, max_length=API_FIELD_LENGHT, verbose_name="Название"
+    )
     color = ColorField(
         blank=False,
         verbose_name="Цвет",

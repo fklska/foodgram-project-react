@@ -1,6 +1,5 @@
-from rest_framework import serializers
-
 from api.models import Recipe
+from rest_framework import serializers
 
 from .models import Follow, User
 
@@ -14,7 +13,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_subscribed(self, obj):
         user = self.context.get("request").user
-        if user.is_authenticated and Follow.objects.filter(subscriber=user, author=obj).exists():
+        if (
+            user.is_authenticated
+            and Follow.objects.filter(subscriber=user, author=obj).exists()
+        ):
             return True
         return False
 

@@ -1,5 +1,5 @@
-from rest_framework.filters import SearchFilter
 from django_filters import rest_framework as filters
+from rest_framework.filters import SearchFilter
 
 
 class IngredientsFilter(SearchFilter):
@@ -7,27 +7,27 @@ class IngredientsFilter(SearchFilter):
 
 
 class RecipeFilter(filters.FilterSet):
-    is_favorited = filters.BooleanFilter(method='favorite_filter')
-    is_in_shopping_cart = filters.BooleanFilter(method='shopping_cart_filter')
-    tags = filters.CharFilter(method='tags_filter')
-    author = filters.CharFilter(method='author_filter')
+    is_favorited = filters.BooleanFilter(method="get_favorite")
+    is_in_shopping_cart = filters.BooleanFilter(method="get_shopping_cart")
+    tags = filters.CharFilter(method="get_tags")
+    author = filters.CharFilter(method="get_author")
 
-    def author_filter(self, queryset, name, value):
+    def get_author(self, queryset, name, value):
         if value:
             return queryset.filter(author__username=value)
         return queryset
 
-    def tags_filter(self, queryset, name, value):
+    def get_tags(self, queryset, name, value):
         if value:
             return queryset.filter(tags__slug=value)
         return queryset
 
-    def favorite_filter(self, queryset, name, value):
+    def get_favorite(self, queryset, name, value):
         if value:
             return queryset.filter(favorites__user=self.request.user)
         return queryset
 
-    def shopping_cart_filter(self, queryset, name, value):
+    def get_shopping_cart(self, queryset, name, value):
         if value:
             return queryset.filter(shopping__user=self.request.user)
         return queryset

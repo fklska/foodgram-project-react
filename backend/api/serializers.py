@@ -1,17 +1,12 @@
-import base64
-
-import webcolors
-from django.core.files.base import ContentFile
+from django.db import transaction
 from django.shortcuts import get_object_or_404
+from drf_extra_fields.fields import Base64ImageField
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
-
 from users.models import Favorite, ShoppingCart
 from users.serializers import UserSerializer
 
 from .models import Ingredient, IngredientsInRecipe, Recipe, Tag
-from drf_extra_fields.fields import Base64ImageField
-from django.db import transaction
 
 
 class IngredientSerizlizer(serializers.ModelSerializer):
@@ -66,14 +61,16 @@ class TagRelationField(serializers.RelatedField):
         return data
 
 
-class ReceptSerizlizer(serializers.ModelSerializer):
+class RecipeSerizlizer(serializers.ModelSerializer):
     ingredients = IngredientInRecipeRelationField(
         queryset=IngredientsInRecipe.objects.all(), many=True
     )
     tags = TagRelationField(many=True, queryset=Tag.objects.all())
     author = UserSerializer(required=False)
     image = Base64ImageField(required=False)
-    is_favorited = serializers.SerializerMethodField(method_name="get_favorite")
+    is_favorited = serializers.SerializerMethodField(
+        method_name="get_favorite"
+    )
     is_in_shopping_cart = serializers.SerializerMethodField(
         method_name="get_shopping_cart"
     )
@@ -132,8 +129,8 @@ class ReceptSerizlizer(serializers.ModelSerializer):
         return False
 
 
-class RecipeReadSerializer(ReceptSerizlizer):
-    image = serializers.URLField(source='image.url')
+class RecipeReadSerializer(RecipeSerizlizer):
+    image = serializers.URLField(source="image.url")
 
     class Meta:
         model = Recipe

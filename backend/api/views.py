@@ -1,27 +1,31 @@
+from django.db.models import Sum
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
+from django_filters import rest_framework as filters
 from rest_framework import response, status, viewsets
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
-from django.db.models import Count, Sum
 from users.models import Favorite, ShoppingCart
 from users.serializers import ReceptLiteSerializer
-from django_filters import rest_framework as filters
+from utils import write_shopping_list
+
 from .filters import IngredientsFilter, RecipeFilter
 from .models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from .premissions import AuthorizedOrAuthor
-from .serializers import IngredientSerizlizer, ReceptSerizlizer, TagSerizlizer, RecipeReadSerializer
+from .serializers import (IngredientSerizlizer, RecipeReadSerializer,
+                          RecipeSerizlizer, TagSerizlizer)
 
 
 class RecipeViewSet(viewsets.ModelViewSet):
     queryset = Recipe.objects.all()
-    serializer_class = ReceptSerizlizer
+    serializer_class = RecipeSerizlizer
     permission_classes = [AuthorizedOrAuthor]
     filter_backends = (filters.DjangoFilterBackend,)
     filterset_class = RecipeFilter
 
     @action(
-        detail=True, methods=["post", "delete"], permission_classes=[IsAuthenticated]
+        detail=True, methods=["post", "delete"],
+        permission_classes=[IsAuthenticated]
     )
     def favorite(self, request, pk):
         recipe = get_object_or_404(Recipe, id=pk)
@@ -41,12 +45,20 @@ class RecipeViewSet(viewsets.ModelViewSet):
             )
 
         if request.method == "DELETE":
-            favorite = get_object_or_404(Favorite, user=request.user, recipe=recipe)
+            favorite = get_object_or_404(
+                Favorite,
+                user=request.user,
+                recipe=recipe
+            )
             favorite.delete()
-            return response.Response("success", status=status.HTTP_204_NO_CONTENT)
+            return response.Response(
+                "success",
+                status=status.HTTP_204_NO_CONTENT
+            )
 
     @action(
-        detail=True, methods=["post", "delete"], permission_classes=[IsAuthenticated]
+        detail=True, methods=["post", "delete"],
+        permission_classes=[IsAuthenticated]
     )
     def shopping_cart(self, request, pk):
         recipe = get_object_or_404(Recipe, id=pk)
@@ -66,28 +78,37 @@ class RecipeViewSet(viewsets.ModelViewSet):
             )
 
         if request.method == "DELETE":
-            shoping = get_object_or_404(ShoppingCart, user=request.user, recipe=recipe)
+            shoping = get_object_or_404(
+                ShoppingCart,
+                user=request.user,
+                recipe=recipe
+            )
             shoping.delete()
-            return response.Response("success", status=status.HTTP_204_NO_CONTENT)
+            return response.Response(
+                "success",
+                status=status.HTTP_204_NO_CONTENT
+            )
 
-    @action(detail=False, methods=["Get"], permission_classes=[IsAuthenticated])
+    @action(
+        detail=False, methods=["Get"],
+        permission_classes=[IsAuthenticated]
+    )
     def download_shopping_cart(self, request):
         ingredients = IngredientsInRecipe.objects.filter(
             recipes__shopping__user=request.user
         ).all()
         # Ing --> Recept --> ShoppingCart --> User --> сравниваю пользователей
-        query = ingredients.values('ingredient__name').annotate(Sum('amount'))
+
+        query = ingredients.values("ingredient__name").annotate(Sum("amount"))
         print(query)
-        with open("shopping_list.txt", "w", encoding="utf8") as file:
-            for item in query:
-                file.write(f"{item.get('ingredient__name')} - {item.get('amount__sum')} \n")
+        write_shopping_list(query)
 
         return FileResponse(open("shopping_list.txt", "rb"))
 
     def get_serializer_class(self):
-        if self.request.method == 'GET':
+        if self.request.method == "GET":
             return RecipeReadSerializer
-        return ReceptSerizlizer
+        return RecipeSerizlizer
 
 
 class TagViewSet(viewsets.ModelViewSet):

@@ -1,4 +1,10 @@
 # Foodgram
+Доступно по [адресу](https://github.com/fklska/foodgram-project-react)
+Данные для админки:
+login: admin
+pass: admin
+---
+
 ```python manage.py csv``` - добавление ингредиентов в базу
 ## Доступные эндпоинты
 ```
@@ -27,3 +33,10 @@ api/ ^users/(?P<id>[^/.]+)/
 api/ ^users/(?P<id>[^/.]+)/subscribe/
 api/ auth/
 ```
+---
+## Пример работы нескольких эндпоинтов
+
+Endpoint | Response | Params 
+--- | --- | ---|
+`api/ ^tags/` | `[{"id": 1,"name": "Жизнь без забот","color": "#32FFB2","slug": "akuna_matata"}]` | -
+
