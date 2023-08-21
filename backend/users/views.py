@@ -13,7 +13,7 @@ class UserViewSet(views.UserViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     pagination_class = PageNumberPagination
-    http_method_names = ["get", "post"]
+    http_method_names = ["get", "post", "delete"]
 
     @action(
         detail=False,
