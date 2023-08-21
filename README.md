@@ -1,12 +1,14 @@
 # Foodgram
-Доступно по [адресу](https://github.com/fklska/foodgram-project-react)
+Доступно по [адресу](https://foodgram-fklska.hopto.org/)
+
+[Документация](https://foodgram-fklska.hopto.org/api/docs/)
+
 Данные для админки:
 ```
 login: admin
 pass: admin
 ```
 ---
-
 ```python manage.py csv``` - добавление ингредиентов в базу
 ## Доступные эндпоинты
 ```
@@ -42,4 +44,9 @@ Endpoint | Response | Params
 --- | --- | ---|
 `api/tags/` | `[{"id": 1,"name": "Жизнь без забот","color": "#32FFB2","slug": "akuna_matata"}]` | -
 `api/ingredients` | `[{"name": "абрикосовое варенье","measurement_unit": "г","id": 1},{"name": "абрикосовое пюре","measurement_unit": "г", "id":2}]` | -
-`api/ingredients?name=пюре` | `[[{"name":"пюре","measurement_unit":"по вкусу","id":1408}]` | name=пюре
+`api/ingredients?name=пюре` | `[[{"name":"пюре","measurement_unit":"по вкусу","id":1408}]` | `name=пюре`
+---
+## Как развернуть проект
+
+1. Скачать репозиторий `git clone https://github.com/fklska/foodgram-project-react`
+2. Запустить `docker compose up`
