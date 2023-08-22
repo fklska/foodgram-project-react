@@ -17,7 +17,6 @@ class UserViewSet(views.UserViewSet):
     @action(
         detail=False,
         methods=["get"],
-        pagination_class=PageNumberPagination,
         permission_classes=[IsAuthenticated],
     )
     def subscriptions(self, request):
