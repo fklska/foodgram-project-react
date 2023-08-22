@@ -1,5 +1,11 @@
 # Foodgram
-Доступно по [адресу](https://foodgram-fklska.hopto.org/)
+[![GitHub](https://github.com/fklska/foodgram-project-react/actions/workflows/main.yaml/badge.svg)](https://github.com/fklska/foodgram-project-react/actions/workflows/main.yaml)
+![Django](https://img.shields.io/badge/django-%23092E20.svg?style=for-the-badge&logo=django&logoColor=white)
+![Nginx](https://img.shields.io/badge/nginx-%23009639.svg?style=for-the-badge&logo=nginx&logoColor=white)
+![Postgres](https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+[![Telegram](https://img.shields.io/badge/Telegram-2CA5E0?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/fklska_bot)
+
+[Доступно по адресу](https://foodgram-fklska.hopto.org/)
 
 [Документация](https://foodgram-fklska.hopto.org/api/docs/)
 
@@ -8,8 +14,10 @@
 login: admin
 pass: admin
 ```
+`python manage.py csv` - добавление ингредиентов в базу
+
 ---
-```python manage.py csv``` - добавление ингредиентов в базу
+
 ## Доступные эндпоинты
 ```
 admin/
