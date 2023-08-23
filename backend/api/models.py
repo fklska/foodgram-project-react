@@ -1,7 +1,6 @@
 from colorfield.fields import ColorField
-from django.db import models
-
 from constants import API_FIELD_LENGHT
+from django.db import models
 from users.models import User
 
 

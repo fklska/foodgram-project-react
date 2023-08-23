@@ -2,7 +2,6 @@ from django.shortcuts import get_object_or_404
 from djoser import views
 from rest_framework import response, status
 from rest_framework.decorators import action
-from rest_framework.pagination import PageNumberPagination
 from rest_framework.permissions import IsAuthenticated
 
 from .models import Follow, User
@@ -15,8 +14,7 @@ class UserViewSet(views.UserViewSet):
     http_method_names = ["get", "post", "delete"]
 
     @action(
-        detail=False,
-        methods=["get"],
+        detail=False, methods=["get"],
         permission_classes=[IsAuthenticated],
     )
     def subscriptions(self, request):
