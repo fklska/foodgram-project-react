@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from djoser import views
 from rest_framework import response, status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Follow, User
 from .serializers import UserSerializer, UserWithReceptSerializer
@@ -11,7 +11,6 @@ from .serializers import UserSerializer, UserWithReceptSerializer
 class UserViewSet(views.UserViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    http_method_names = ["get", "post", "delete"]
 
     @action(
         detail=False, methods=["get"],
@@ -53,9 +52,3 @@ class UserViewSet(views.UserViewSet):
             )
             follow.delete()
             return response.Response("Succes")
-
-    def get_serializer_context(self):
-        """Extra context provided to the serializer class."""
-        return {
-            "request": self.request,
-        }

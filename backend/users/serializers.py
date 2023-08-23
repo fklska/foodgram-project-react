@@ -59,3 +59,33 @@ class UserWithReceptSerializer(UserSerializer):
 
     def get_count(self, obj):
         return Recipe.objects.filter(author=obj).count()
+
+
+class UserCreateSerializer(UserSerializer):
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "username",
+            "first_name",
+            "last_name",
+            "password"
+        )
+
+    def create(self, validated_data):
+        #  Необходимо для решения проблемы с получением токена
+        #  Если пароль не зашифрован - токена не видать
+        password = validated_data.pop("password")
+        user = User.objects.create(**validated_data)
+        user.set_password(password)
+        return user
+
+    def to_representation(self, instance):
+        return {
+            "email": instance.email,
+            "id": instance.id,
+            "username": instance.username,
+            "first_name": instance.first_name,
+            "last_name": instance.last_name
+        }
