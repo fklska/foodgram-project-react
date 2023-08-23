@@ -77,8 +77,9 @@ class UserCreateSerializer(UserSerializer):
         #  Необходимо для решения проблемы с получением токена
         #  Если пароль не зашифрован - токена не видать
         password = validated_data.pop("password")
-        user = User.objects.create(**validated_data)
+        user = User(**validated_data)
         user.set_password(password)
+        user.save()
         return user
 
     def to_representation(self, instance):
