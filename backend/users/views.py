@@ -11,7 +11,6 @@ from .serializers import UserSerializer, UserWithReceptSerializer
 class UserViewSet(views.UserViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = AllowAny
     http_method_names = ["get", "post", "delete"]
 
     @action(
