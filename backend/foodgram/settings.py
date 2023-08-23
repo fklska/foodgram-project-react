@@ -55,6 +55,9 @@ DJOSER = {
         "user": "users.serializers.UserSerializer",
         "current_user": "users.serializers.UserSerializer",
     },
+    "PERMISSIONS": {
+        'user': ['rest_framework.permissions.AllowAny'],
+    }
 }
 
 MEDIA_URL = "/media/"
