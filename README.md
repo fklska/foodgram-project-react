@@ -9,7 +9,7 @@
 
 [Документация](https://foodgram-fklska.hopto.org/api/docs/)
 
-Данные для админки:
+Данные для [админки](https://foodgram-fklska.hopto.org/admin/):
 ```
 login: admin
 pass: admin
