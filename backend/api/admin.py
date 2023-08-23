@@ -20,6 +20,7 @@ class RecipeAdmin(admin.ModelAdmin):
         "tags",
     )
     readonly_fields = ("amount_in_favorite",)
+    search_fields = ("name", "author", "tags")
 
     def amount_in_favorite(self, obj):
         return obj.favorites.all().count()

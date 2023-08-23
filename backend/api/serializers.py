@@ -130,7 +130,7 @@ class RecipeSerizlizer(serializers.ModelSerializer):
 
 
 class RecipeReadSerializer(RecipeSerizlizer):
-    image = serializers.URLField(source="image.url")
+    image = serializers.ReadOnlyField(source="image.url")
 
     class Meta:
         model = Recipe
