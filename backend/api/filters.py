@@ -14,7 +14,7 @@ class RecipeFilter(filters.FilterSet):
 
     def get_author(self, queryset, name, value):
         if value:
-            return queryset.filter(author__username=value)
+            return queryset.filter(author__id=value)
         return queryset
 
     def get_tags(self, queryset, name, value):
