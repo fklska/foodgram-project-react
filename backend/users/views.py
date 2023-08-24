@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from djoser import views
 from rest_framework import response, status
 from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 
 from .models import Follow, User
 from .serializers import UserSerializer, UserWithReceptSerializer
@@ -11,7 +11,6 @@ from .serializers import UserSerializer, UserWithReceptSerializer
 class UserViewSet(views.UserViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    #permission_classes = IsAuthenticated
 
     @action(
         detail=False, methods=["get"],
