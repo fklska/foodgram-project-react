@@ -12,6 +12,7 @@
 Данные для [админки](https://foodgram-fklska.hopto.org/admin/):
 ```
 login: admin
+mail: admin@mail.ru
 pass: admin
 ```
 `python manage.py csv` - добавление ингредиентов в базу
