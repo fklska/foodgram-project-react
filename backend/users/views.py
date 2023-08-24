@@ -11,6 +11,7 @@ from .serializers import UserSerializer, UserWithReceptSerializer
 class UserViewSet(views.UserViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = IsAuthenticated
 
     @action(
         detail=False, methods=["get"],
