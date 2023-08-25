@@ -5,4 +5,3 @@ def write_shopping_list(query):
                 f"{item.get('ingredient__name')}"
                 f"- {item.get('amount__sum')}\n"
             )
-        print("Successfuly writed")
