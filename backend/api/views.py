@@ -100,7 +100,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         # Ing --> Recept --> ShoppingCart --> User --> сравниваю пользователей
 
         query = ingredients.values("ingredient__name").annotate(Sum("amount"))
-        print(query)
         write_shopping_list(query)
 
         return FileResponse(open("shopping_list.txt", "rb"))
