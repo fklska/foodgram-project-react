@@ -22,12 +22,10 @@ class UserSerializer(serializers.ModelSerializer):
 
     def get_subscribed(self, obj):
         user = self.context.get("request").user
-        if (
+        return (
             user.is_authenticated
             and Follow.objects.filter(subscriber=user, author=obj).exists()
-        ):
-            return True
-        return False
+        )
 
 
 class ReceptLiteSerializer(serializers.ModelSerializer):

@@ -2,6 +2,7 @@ from colorfield.fields import ColorField
 from constants import API_FIELD_LENGHT
 from django.db import models
 from users.models import User
+from django.core.validators import MinValueValidator
 
 
 class Ingredient(models.Model):
@@ -49,6 +50,7 @@ class Recipe(models.Model):
     tags = models.ManyToManyField(blank=False, to="Tag", verbose_name="Теги")
     cooking_time = models.PositiveIntegerField(
         blank=False,
+        validators=[MinValueValidator(1)],
         verbose_name="Время приготовления"
     )
 
