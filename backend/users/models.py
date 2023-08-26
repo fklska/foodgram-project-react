@@ -1,4 +1,3 @@
-from typing import Iterable, Optional
 from constants import EMAIL_FIELD_LENGHT, USER_FIELD_LENGHT
 from django.contrib.auth import validators
 from django.contrib.auth.models import AbstractUser
