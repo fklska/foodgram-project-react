@@ -11,8 +11,7 @@ from users.serializers import ReceptLiteSerializer
 from .filters import IngredientsFilter, RecipeFilter
 from .models import Ingredient, IngredientsInRecipe, Recipe, Tag
 from .premissions import AuthorizedOrAuthor
-from .serializers import (IngredientSerizlizer, RecipeReadSerializer,
-                          RecipeSerizlizer, TagSerizlizer)
+from .serializers import IngredientSerizlizer, RecipeSerizlizer, TagSerizlizer
 from .utils import write_shopping_list
 
 
@@ -103,11 +102,6 @@ class RecipeViewSet(viewsets.ModelViewSet):
         write_shopping_list(query)
 
         return FileResponse(open("shopping_list.txt", "rb"))
-
-    def get_serializer_class(self):
-        if self.request.method == "GET":
-            return RecipeReadSerializer
-        return RecipeSerizlizer
 
 
 class TagViewSet(viewsets.ModelViewSet):

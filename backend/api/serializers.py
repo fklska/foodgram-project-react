@@ -123,22 +123,3 @@ class RecipeSerizlizer(serializers.ModelSerializer):
             user.is_authenticated
             and ShoppingCart.objects.filter(user=user, recipe=obj).exists()
         )
-
-
-class RecipeReadSerializer(RecipeSerizlizer):
-    image = serializers.URLField(source="image.url")
-
-    class Meta:
-        model = Recipe
-        fields = (
-            "id",
-            "tags",
-            "author",
-            "ingredients",
-            "is_favorited",
-            "is_in_shopping_cart",
-            "name",
-            "image",
-            "text",
-            "cooking_time",
-        )
