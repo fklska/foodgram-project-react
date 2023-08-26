@@ -1,8 +1,8 @@
 from colorfield.fields import ColorField
 from constants import API_FIELD_LENGHT
+from django.core.validators import MinValueValidator
 from django.db import models
 from users.models import User
-from django.core.validators import MinValueValidator
 
 
 class Ingredient(models.Model):
