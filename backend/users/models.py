@@ -65,7 +65,7 @@ class Follow(models.Model):
         print(self.subscriber)
         print(self.author)
         if self.subscriber == self.author:
-            raise ValidationError('Cant subscribe on yourself')
+            return ValidationError('Cant subscribe on yourself')
         return super().save(*args, **kwargs)
 
 
