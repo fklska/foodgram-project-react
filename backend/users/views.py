@@ -32,7 +32,7 @@ class UserViewSet(views.UserViewSet):
     def subscribe(self, request, id):
         author = get_object_or_404(User, id=id)
 
-        if request.method == "POST" and request.user != author:
+        if request.method == "POST":
             if not Follow.objects.filter(
                 author=author, subscriber=request.user
             ).exists():
@@ -51,4 +51,4 @@ class UserViewSet(views.UserViewSet):
                 Follow, subscriber=request.user, author=author
             )
             follow.delete()
-            return response.Response("Succes")
+            return response.Response("Success")

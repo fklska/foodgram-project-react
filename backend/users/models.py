@@ -52,6 +52,13 @@ class Follow(models.Model):
         related_name="followers",
     )
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['subscriber', 'author'],
+                name='Can t subscribe on yourself')
+        ]
+
 
 class Favorite(models.Model):
     user = models.ForeignKey(
