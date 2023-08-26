@@ -32,13 +32,7 @@ class UserViewSet(views.UserViewSet):
     def subscribe(self, request, id):
         author = get_object_or_404(User, id=id)
 
-        if request.user == author:
-            return response.Response(
-                "Can't subscribe on yourself",
-                status=status.HTTP_400_BAD_REQUEST
-            )
-
-        if request.method == "POST":
+        if request.method == "POST" and request.user != author:
             if not Follow.objects.filter(
                 author=author, subscriber=request.user
             ).exists():
