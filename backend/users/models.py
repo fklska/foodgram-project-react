@@ -60,7 +60,9 @@ class Follow(models.Model):
                 name='already in follow'
             ),
             models.CheckConstraint(
-                check=models.Q(subscriber__gte=models.F('author')),
+                check=models.Q(subscriber__username__gte=models.F(
+                    'author__username')
+                ),
                 name='Cant subscribe on yourself'
             )
         ]
