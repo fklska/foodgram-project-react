@@ -13,6 +13,7 @@ class RecipeAdmin(admin.ModelAdmin):
         "text",
         "cooking_time",
         "amount_in_favorite",
+        "pub_date"
     )
     list_filter = (
         "name",
