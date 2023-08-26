@@ -58,15 +58,17 @@ class Follow(models.Model):
             models.UniqueConstraint(
                 fields=('subscriber', 'author'),
                 name='already in follow'
+            ),
+            models.CheckConstraint(
+                check=models.Q(subscriber__gte=models.F('author')),
+                name='Cant subscribe on yourself'
             )
         ]
 
-    def save(self, *args, **kwargs) -> None:
-        print(self.subscriber)
-        print(self.author)
+    """def save(self, *args, **kwargs) -> None:
         if self.subscriber == self.author:
             return ValidationError('Cant subscribe on yourself')
-        return super().save(*args, **kwargs)
+        return super().save(*args, **kwargs)"""
 
 
 class Favorite(models.Model):
