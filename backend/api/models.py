@@ -61,7 +61,7 @@ class Recipe(models.Model):
 
     class Meta:
         ordering = [
-            "pub_date",
+            "-pub_date",
         ]
 
     def __str__(self) -> str:
