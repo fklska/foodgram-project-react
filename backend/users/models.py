@@ -2,7 +2,7 @@ from constants import EMAIL_FIELD_LENGHT, USER_FIELD_LENGHT
 from django.contrib.auth import validators
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from django.core.exceptions import ValidationError
 
 class User(AbstractUser):
     """Модель пользователя."""
@@ -57,12 +57,15 @@ class Follow(models.Model):
             models.UniqueConstraint(
                 fields=('subscriber', 'author'),
                 name='already in follow'
-            ),
-            models.CheckConstraint(
-                check=models.Q(subscriber=models.F('author')),
-                name='Cant subscribe on yourself',
             )
         ]
+
+    def save(self, *args, **kwargs) -> None:
+        print(self.subscriber)
+        print(self.author)
+        if self.subscriber == self.author:
+            raise ValidationError('Cant subscribe on yourself')
+        return super().save(*args, **kwargs)
 
 
 class Favorite(models.Model):
