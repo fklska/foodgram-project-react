@@ -53,10 +53,13 @@ class Recipe(models.Model):
         validators=[MinValueValidator(1)],
         verbose_name="Время приготовления"
     )
+    pub_date = models.DateTimeField(
+        auto_now_add=True
+    )
 
     class Meta:
         ordering = [
-            "name",
+            "pub_date",
         ]
 
     def __str__(self) -> str:
