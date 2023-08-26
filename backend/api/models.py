@@ -41,7 +41,8 @@ class Recipe(models.Model):
     )
     image = models.ImageField(
         blank=False,
-        verbose_name="Картинка")
+        verbose_name="Картинка"
+    )
     text = models.TextField(blank=False, verbose_name="Описание")
     ingredients = models.ManyToManyField(
         blank=False,
@@ -64,6 +65,7 @@ class Recipe(models.Model):
     class Meta:
         ordering = [
             "-pub_date",
+            "name"
         ]
 
     def __str__(self) -> str:

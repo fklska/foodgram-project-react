@@ -104,11 +104,13 @@ class RecipeSerizlizer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         tags = validated_data.pop("tags")
         ingeredients = validated_data.pop("ingredients")
+        image = validated_data.pop("image")
         Recipe.objects.filter(id=instance.id).update(**validated_data)
-        recipe = Recipe.objects.filter(id=instance.id).get()
-        recipe.tags.set(tags)
-        recipe.ingredients.set(ingeredients)
-        return recipe
+        instance.image = image
+        instance.tags.set(tags)
+        instance.ingredients.set(ingeredients)
+        instance.save()
+        return instance
 
     def get_favorite(self, obj):
         user = self.context.get("request").user
