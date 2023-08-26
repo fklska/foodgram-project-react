@@ -39,7 +39,9 @@ class Recipe(models.Model):
         max_length=API_FIELD_LENGHT,
         verbose_name="Название рецепта"
     )
-    image = models.ImageField(blank=False, verbose_name="Картинка")
+    image = models.ImageField(
+        blank=False,
+        verbose_name="Картинка")
     text = models.TextField(blank=False, verbose_name="Описание")
     ingredients = models.ManyToManyField(
         blank=False,

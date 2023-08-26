@@ -15,7 +15,6 @@ class RecipeAdmin(admin.ModelAdmin):
         "amount_in_favorite",
         "pub_date"
     )
-    list_editable = ("pub_date", "name",)
     list_filter = (
         "name",
         "author",
