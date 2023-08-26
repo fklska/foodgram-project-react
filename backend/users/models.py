@@ -53,7 +53,11 @@ class Follow(models.Model):
     )
 
     class Meta:
-        unique_together = ['subscriber', 'author']
+        constraints = [
+            models.UniqueConstraint(
+                fields=['subscriber', 'author'], name='unique follow'
+            ),
+        ]
 
 
 class Favorite(models.Model):
