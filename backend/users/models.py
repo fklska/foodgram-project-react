@@ -1,3 +1,4 @@
+from typing import Iterable, Optional
 from constants import EMAIL_FIELD_LENGHT, USER_FIELD_LENGHT
 from django.contrib.auth import validators
 from django.contrib.auth.models import AbstractUser
@@ -53,7 +54,16 @@ class Follow(models.Model):
     )
 
     class Meta:
-        unique_together = ["subscriber", "author"]
+        constraints = [
+            models.UniqueConstraint(
+                fields=('subscriber', 'author'),
+                name='already in follow'
+            ),
+            models.CheckConstraint(
+                check=models.Q(subscriber=models.F('author')),
+                name='Cant subscribe on yourself',
+            )
+        ]
 
 
 class Favorite(models.Model):
