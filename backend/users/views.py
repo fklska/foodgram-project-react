@@ -34,7 +34,8 @@ class UserViewSet(views.UserViewSet):
 
         if request.user == author:
             return response.Response(
-                "Can't subscribe on yourself", status=status.HTTP_400_BAD_REQUEST
+                "Can't subscribe on yourself",
+                status=status.HTTP_400_BAD_REQUEST
             )
 
         if request.method == "POST":
