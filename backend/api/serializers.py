@@ -104,8 +104,7 @@ class RecipeSerizlizer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         tags = validated_data.pop("tags")
         ingeredients = validated_data.pop("ingredients")
-        image = validated_data.pop("image")
-        instance.image = image
+        instance.image = validated_data.pop("image", instance.image)
         instance.tags.set(tags)
         instance.ingredients.set(ingeredients)
         instance.save()
